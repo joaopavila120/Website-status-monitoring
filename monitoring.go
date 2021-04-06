@@ -3,7 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"io"
+	"io" 
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -12,8 +12,8 @@ import (
 	"time"
 )
 
-const numberOfMonitorings = 3 
-const delay               = 5
+const numberOfMonitorings = 3 //number of times it will restart the monitoring test
+const delay               = 5 //delay in seconds that the program will wait to restart
 
 func main() {
     for {
@@ -31,6 +31,7 @@ func main() {
                 printLogs()
             case 3:
                 fmt.Println("Closing...")
+                fmt.Println("Thank you teacher Brusso!")
                 os.Exit(0) //close
             default:
                 fmt.Println("Invalid instruction")
@@ -54,6 +55,9 @@ func startMonitoring() {
 
     for i:=0; i < numberOfMonitorings; i++ {
         for i, website := range website{
+            if i == numberOfMonitorings { 
+                continue 
+            }
             fmt.Println("Connecting to website n°", i, ".Adress: ", website)
             siteTest(website)
         }      
@@ -62,7 +66,7 @@ func startMonitoring() {
         fmt.Println("Waiting to restart application")
         fmt.Println("[#######]")
         fmt.Println("")
-        time.Sleep(delay * time.Second)  
+        time.Sleep(delay * time.Second)  //set delay
     }        
 }
 
@@ -70,7 +74,7 @@ func siteTest(website string) {
     response, err := http.Get(website) //get function has two returns, _ is used to treat errors
 
     if err != nil {
-        fmt.Println("An error occurred:", err)
+        fmt.Println("An error occurred:", err) //error treatment
     }
 
     if response.StatusCode == 200 { //200 confirms that the website is online
@@ -88,18 +92,18 @@ func readFile() []string {
 
     file, err := os.Open("websites.txt")
 
-    if err != nil {
+    if err != nil { //nil is the same as null
         fmt.Println("An error occurred while trying to read the file", err)
     }
 
     reader := bufio.NewReader(file)
     for {
-        line, err        := reader.ReadString('\n') // \n is the delimiter byte for broke lines in txt files
-        currentLine      := strings.TrimSpace(line) //remove whitespaces from the txt file
+        line, err   := reader.ReadString('\n') // \n is the delimiter byte for broke lines in txt files
+        currentLine := strings.TrimSpace(line) //remove whitespaces from the txt file
 
         websites = append(websites, currentLine)
         
-        if err == io.EOF {
+        if err == io.EOF { 
             break
         }
     }
@@ -111,11 +115,12 @@ func readFile() []string {
 func registerLogs(website string, status bool) {
     file, err := os.OpenFile("log.txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666) //read and write flag, create file flag, file permission 
 
-    if err != nil {
+    if err != nil { 
         fmt.Println("An error occurred:", err)
     }
 
-    file.WriteString(time.Now().Format("02/01/2006 15:04:05") + " - " + website + " - online: " + strconv.FormatBool(status) + "\n")
+    file.WriteString(time.Now().Format("02/01/2006 15:04:05") + " - " + website + " - online: " + strconv.FormatBool(status) + "\n") 
+    //set timestamp of the monitoring and the current website status
 
     file.Close()
 }
