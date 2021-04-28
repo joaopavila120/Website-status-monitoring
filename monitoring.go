@@ -1,15 +1,15 @@
 package main
 
 import (
-	"bufio"
-	"fmt"
-	"io" 
-	"io/ioutil"
-	"net/http"
-	"os"
-	"strconv"
-	"strings"
-	"time"
+	"bufio" //read lines, files
+	"fmt"   //print
+	"io"    //file reader
+	"io/ioutil" 
+	"net/http" //uses http requests and get
+	"os" //uses operations of the operational system
+	"strconv" //convert strings
+	"strings" //manipulate UTF-8 encoded strings
+	"time" //time operations
 )
 
 const numberOfMonitorings = 3 //number of times it will restart the monitoring test
